@@ -6,7 +6,7 @@
   <title>打卡歷史紀錄</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f0f0f0;}
-    .container { max-width: 600px; margin: 0 auto; padding: 20px; background-color: white; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);}
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; background-color: white; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
     h1 { text-align: center; }
     table { width: 100%; border-collapse: collapse; margin-top: 20px; }
     table, th, td { border: 1px solid #ddd; }
@@ -17,7 +17,17 @@
 <body>
   <div class="container">
     <h1>打卡歷史紀錄</h1>
-    <div id="history"></div>
+    <table id="recordsTable">
+      <thead>
+        <tr>
+          <th>姓名</th>
+          <th>打卡時間</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- 這裡將顯示歷史紀錄 -->
+      </tbody>
+    </table>
   </div>
 
   <script>
@@ -28,23 +38,23 @@
     if (name) {
       // 根據姓名，向 Google Apps Script API 發送請求
       fetch(`https://script.google.com/macros/s/AKfycbxUkHD5QRqs63E6s_bAEVYcUtD758tmHMzabC79gbM0qrzMvrrBw8cvy3Xsj_M9yfpj/exec?name=${encodeURIComponent(name)}`)
-         .then(response => response.json())
-  .then(data => {
-    if (data.status === 'success' && data.records.length > 0) {
-      const table = document.getElementById('recordsTable');
-      data.records.forEach(record => {
-        const row = table.insertRow();
-        row.insertCell(0).textContent = record.name;
-        row.insertCell(1).textContent = new Date(record.clockInTime).toLocaleString();
-      });
-    } else {
-      alert('無歷史紀錄');
-    }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-    alert('無法載入資料');
-  });
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'success' && data.records.length > 0) {
+            const table = document.getElementById('recordsTable').getElementsByTagName('tbody')[0];
+            data.records.forEach(record => {
+              const row = table.insertRow();
+              row.insertCell(0).textContent = record.name;
+              row.insertCell(1).textContent = new Date(record.clockInTime).toLocaleString();
+            });
+          } else {
+            alert('無歷史紀錄');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('無法載入資料');
+        });
     } else {
       alert('姓名參數丟失');
     }
