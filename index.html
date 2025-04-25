@@ -1,11 +1,42 @@
-
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>我的表單 APP</title>
+  <title>時數表</title>
   <link rel="manifest" href="manifest.json" />
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background-color: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 600px;
+      width: 100%;
+      padding: 1rem;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    iframe {
+      width: 100%;
+      height: 800px;
+      border: none;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+  </style>
 </head>
 <body>
   <h2 style="text-align: center;">快速填表</h2>
