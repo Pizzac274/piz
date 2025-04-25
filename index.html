@@ -6,12 +6,12 @@
   <title>打卡表單</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f0f0f0;}
-    .container { max-width: 600px; margin: 0 auto; padding: 20px; background-color: white; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);}
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; background-color: white; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
     h1 { text-align: center; }
     label { display: block; margin-bottom: 8px; font-weight: bold; }
-    input, select { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 4px;}
-    button { width: 100%; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 4px;}
-    button:hover { background-color: #45a049;}
+    select, button { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 4px;}
+    button { background-color: #4CAF50; color: white; border: none; border-radius: 4px;}
+    button:hover { background-color: #45a049; }
   </style>
 </head>
 <body>
@@ -26,8 +26,7 @@
         <!-- 可擴充選項 -->
       </select>
 
-      <label for="clockInTime">打卡時間</label>
-      <input type="datetime-local" id="clockInTime" name="clockInTime" required>
+      <!-- 打卡時間欄位已移除 -->
 
       <button type="submit">提交打卡</button>
     </form>
@@ -44,8 +43,12 @@
         data[key] = value;
       });
 
+      // 加上當前時間
+      var currentDate = new Date();
+      data.clockInTime = currentDate.toISOString(); // 使用當前的時間，並轉換為 ISO 格式
+
       // 發送到 Google Apps Script
-      fetch('https://script.google.com/macros/s/AKfycbxJMj7bjuPxpSfMvEj5DERps1QaJ5YAqmJlppROtX7HuoOuHI_QljjAmEzwF4pW6rs5/exec', {
+      fetch('https://script.google.com/macros/s/AKfycbyoOjoRmvYRrEfMVrR_GfjELzSY_qnX9g4iEOrpKL92p3ZuSNANnpcqApCeNKx0LeiGDw/exec', {
         method: 'POST',
         body: new URLSearchParams(data)
       })
