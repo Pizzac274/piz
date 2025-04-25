@@ -1,49 +1,48 @@
-!DOCTYPE html
-html lang=en
-head
-  meta charset=UTF-8
-  meta name=viewport content=width=device-width, initial-scale=1.0
-  title打卡紀錄title
-  style
-    body { font-family Arial, sans-serif; text-align center; padding 20px; }
-    .message { margin-top 20px; color green; font-size 20px; }
-    table { width 80%; margin 20px auto; border-collapse collapse; }
-    th, td { padding 8px 12px; text-align left; border 1px solid #ddd; }
-  style
-head
-body
-  h1打卡紀錄h1
-  p以下是您的打卡紀錄：p
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>打卡紀錄</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+    .message { margin-top: 20px; color: green; font-size: 20px; }
+    table { width: 80%; margin: 20px auto; border-collapse: collapse; }
+    th, td { padding: 8px 12px; text-align: left; border: 1px solid #ddd; }
+  </style>
+</head>
+<body>
+  <h1>打卡紀錄</h1>
+  <p>以下是您的打卡紀錄：</p>
 
-  div id=record
-    p正在加載您的打卡紀錄...p
-  div
+  <div id="record">
+    <p>正在加載您的打卡紀錄...</p>
+  </div>
 
-  script
-     用 URL 參數來獲取姓名
+  <script>
     const params = new URLSearchParams(window.location.search);
-    const 姓名 = params.get('name');
+    const 姓名 = params.get('name');  // 從 URL 中獲取姓名參數
 
     if (姓名) {
-       通過 Google Apps Script 提供的 API 獲取打卡資料
-      fetch(`get-recordsname=${encodeURIComponent(姓名)}`)
-        .then(response = response.json())
-        .then(data = {
-          if (data && data.records.length  0) {
-            let tableHTML = 'tabletrth姓名thth打卡時間thtr';
-            data.records.forEach(record = {
-              tableHTML += `trtd${record.姓名}tdtd${record.打卡時間}tdtr`;
+      // 從 Google Sheets 中獲取該姓名的歷史紀錄
+      fetch(`/get-records?name=${encodeURIComponent(姓名)}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data && data.records.length > 0) {
+            let tableHTML = '<table><tr><th>姓名</th><th>打卡時間</th></tr>';
+            data.records.forEach(record => {
+              tableHTML += `<tr><td>${record.姓名}</td><td>${record.打卡時間}</td></tr>`;
             });
-            tableHTML += 'table';
+            tableHTML += '</table>';
             document.getElementById('record').innerHTML = tableHTML;
           } else {
             document.getElementById('record').innerHTML = '未找到打卡紀錄。';
           }
         })
-        .catch(error = {
+        .catch(error => {
           document.getElementById('record').innerHTML = '無法加載打卡紀錄，請稍後再試。';
         });
     }
-  script
-body
-html
+  </script>
+</body>
+</html>
