@@ -1,0 +1,22 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>我的表單 APP</title>
+  <link rel="manifest" href="manifest.json" />
+</head>
+<body>
+  <h2 style="text-align: center;">快速填表</h2>
+  <!-- 嵌入你的 Google 表單 -->
+  <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSccto7BFx7NI2c8s0tU5rp41AJh7SeeXh7r6aCdhZx5OYe85w/viewform?embedded=true" width="640" height="1361" frameborder="0" marginheight="0" marginwidth="0">載入中…</iframe>
+
+  <script>
+    // 安裝 Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  </script>
+</body>
+</html>
