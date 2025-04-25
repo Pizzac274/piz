@@ -48,7 +48,7 @@
       data.clockInTime = currentDate.toISOString(); // 使用當前的時間，並轉換為 ISO 格式
 
       // 發送到 Google Apps Script
-      fetch('https://script.google.com/macros/s/AKfycbyoOjoRmvYRrEfMVrR_GfjELzSY_qnX9g4iEOrpKL92p3ZuSNANnpcqApCeNKx0LeiGDw/exec', {
+      fetch('https://script.google.com/macros/s/AKfycbxUkHD5QRqs63E6s_bAEVYcUtD758tmHMzabC79gbM0qrzMvrrBw8cvy3Xsj_M9yfpj/exec', {
         method: 'POST',
         body: new URLSearchParams(data)
       })
