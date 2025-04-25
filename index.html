@@ -1,53 +1,64 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>時數表</title>
-  <link rel="manifest" href="manifest.json" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>打卡表單</title>
   <style>
-    body {
-      margin: 0;
-      font-family: "Segoe UI", sans-serif;
-      background-color: #f2f2f2;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    .container {
-      max-width: 600px;
-      width: 100%;
-      padding: 1rem;
-      background-color: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    iframe {
-      width: 100%;
-      height: 800px;
-      border: none;
-    }
-
-    h2 {
-      text-align: center;
-      color: #333;
-    }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f0f0f0;}
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; background-color: white; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);}
+    h1 { text-align: center; }
+    label { display: block; margin-bottom: 8px; font-weight: bold; }
+    input, select { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 4px;}
+    button { width: 100%; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 4px;}
+    button:hover { background-color: #45a049;}
   </style>
 </head>
 <body>
-  <h2 style="text-align: center;">快速填表</h2>
-  <!-- 嵌入你的 Google 表單 -->
-  <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSccto7BFx7NI2c8s0tU5rp41AJh7SeeXh7r6aCdhZx5OYe85w/viewform?embedded=true" width="640" height="1361" frameborder="0" marginheight="0" marginwidth="0">載入中…</iframe>
+  <div class="container">
+    <h1>打卡系統</h1>
+    <form id="clockInForm">
+      <label for="name">姓名</label>
+      <select id="name" name="name" required>
+        <option value="小名">小名</option>
+        <option value="小黃">小黃</option>
+        <option value="小綠">小綠</option>
+        <!-- 可擴充選項 -->
+      </select>
+
+      <label for="clockInTime">打卡時間</label>
+      <input type="datetime-local" id="clockInTime" name="clockInTime" required>
+
+      <button type="submit">提交打卡</button>
+    </form>
+  </div>
 
   <script>
-    // 安裝 Service Worker
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js');
-    }
+    document.getElementById('clockInForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // 防止表單重新加載頁面
+      var formData = new FormData(this);
+      
+      // 轉換表單資料為 JSON 格式
+      var data = {};
+      formData.forEach(function(value, key) {
+        data[key] = value;
+      });
+
+      // 發送到 Google Apps Script
+      fetch('https://script.google.com/macros/s/AKfycbxJMj7bjuPxpSfMvEj5DERps1QaJ5YAqmJlppROtX7HuoOuHI_QljjAmEzwF4pW6rs5/exec', {
+        method: 'POST',
+        body: new URLSearchParams(data)
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert('打卡成功！');
+        window.location.href = `record.html?name=${data.name}`; // 跳轉到紀錄頁面
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('提交失敗，請稍後再試。');
+      });
+    });
   </script>
 </body>
 </html>
