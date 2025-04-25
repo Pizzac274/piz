@@ -6,7 +6,6 @@
   <title>打卡紀錄</title>
   <style>
     body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-    .message { margin-top: 20px; color: green; font-size: 20px; }
     table { width: 80%; margin: 20px auto; border-collapse: collapse; }
     th, td { padding: 8px 12px; text-align: left; border: 1px solid #ddd; }
   </style>
@@ -20,6 +19,7 @@
   </div>
 
   <script>
+    // 取得 URL 中的姓名參數
     const params = new URLSearchParams(window.location.search);
     const 姓名 = params.get('name');  // 從 URL 中獲取姓名參數
 
